@@ -98,6 +98,34 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void pauseRecorder() async {
+    try {
+      String result = await flutterSound.pauseRecorder();
+      print ('pauseRecorder: $result');
+
+    } catch ( err ) {
+      print ('pauseRecorder error: $err');
+    }
+    this.setState(() {
+      this._isRecording = false;
+
+    });
+  }
+
+  void resumeRecorder() async {
+    try {
+      String result = await flutterSound.resumeRecorder();
+      print ('resumeRecorder: $result');
+
+    } catch ( err ) {
+      print ('resumeRecorder error: $err');
+    }
+    this.setState(() {
+      this._isRecording = true;
+
+    });
+  }
+
   void stopRecorder() async {
     try {
       String result = await flutterSound.stopRecorder();
@@ -263,6 +291,19 @@ class _MyAppState extends State<MyApp> {
             return stopRecorder;
 
     return  flutterSound.audioState == t_AUDIO_STATE.IS_STOPPED ? startRecorder : null;
+  }
+
+  onPauseRecorderPressed() {
+    if (flutterSound.audioState == t_AUDIO_STATE.IS_RECORDING) {
+      pauseRecorder();
+    }
+  }
+
+
+  onResumeRecorderPressed() {
+    if (flutterSound.audioState == t_AUDIO_STATE.IS_PAUSED) {
+      resumeRecorder();
+    }
   }
 
   AssetImage recorderAssetImage() {
@@ -479,6 +520,28 @@ class _MyAppState extends State<MyApp> {
                       child: Image(
                         image: recorderAssetImage(),
                       ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 56.0,
+                  height: 50.0,
+                  child: ClipOval(
+                    child: FlatButton(
+                      onPressed: onPauseRecorderPressed,
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.pause),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 56.0,
+                  height: 50.0,
+                  child: ClipOval(
+                    child: FlatButton(
+                      onPressed: onResumeRecorderPressed,
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.fiber_smart_record),
                     ),
                   ),
                 ),
