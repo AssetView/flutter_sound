@@ -321,7 +321,7 @@ class FlutterSound {
   }
 
   Future<String> stopRecorder() async {
-    if (_audioState != t_AUDIO_STATE.IS_RECORDING) {
+    if (_audioState != t_AUDIO_STATE.IS_RECORDING && _audioState != t_AUDIO_STATE.IS_PAUSED) {
       throw new RecorderStoppedException('Recorder is not recording.');
     }
 
